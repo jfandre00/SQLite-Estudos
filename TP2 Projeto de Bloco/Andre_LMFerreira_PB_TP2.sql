@@ -2,7 +2,7 @@
 --.mode table
 --DROP TABLE IF EXISTS funcionarios;
 
---exercício 1
+--exercício 1 (Executar o script abaixo)
 CREATE TABLE funcionarios(
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 nome CHAR(50) NOT NULL,
@@ -45,75 +45,78 @@ VALUES
 ('Diego Pereira', 'Gerente de Operações', 'Produção', 8500, '2022-12-20'),
 ('Renato Costa', 'Analista de Logística', 'Produção', 6000, '2023-03-20');
 
---exercício 2
+--exercício 2 (consultar todos os funcionários da empresa)
 SELECT * FROM funcionarios;
 
 
---exercício 3
+--exercício 3 (consultar os funcionários ordenados por nome)
 SELECT * FROM funcionarios
 ORDER BY nome ASC;
 
---exercício 4
+--exercício 4 (consultar o nome e o salário dos funcionários por ordem decrescente)
 SELECT nome, salario
 FROM funcionarios
 ORDER BY salario DESC;
 
---exercício 5
+--exercício 5 (consultar o nome e o departamento dos funcionários do departamento de TI)
 SELECT nome, departamento
 FROM funcionarios
 WHERE departamento = 'TI';
 
---exercício 6
+--exercício 6 (consultar o nome, salário e departamento dos funcionários com salário maior ou igual a 6000 e que sejam do departamento de TI)
 SELECT nome, salario, departamento
 FROM funcionarios
 WHERE salario >= 6000 AND departamento = 'TI';
 
---exercício 7
+--exercício 7 (consultar os funcionários com o sobrenome "Souza" usando LIKE)
 SELECT nome
 FROM funcionarios
 WHERE nome LIKE '%Souza%';
 
---exercício 8
+--exercício 8 (consultar o número de funcionários por departamento ordenado por número de funcionários em ordem decrescente. Utilizar um "alias" para o total de funcionários)
 SELECT departamento, count(nome) AS total_de_funcionarios
 FROM funcionarios
-GROUP BY departamento;
+GROUP BY departamento
+ORDER BY total_de_funcionarios DESC;
 
---exercício 9
+--exercício 9 (consultar os departamentos com mais de 5 funcionários. Utilizar um "alias" para o total de funcionários)
 SELECT departamento, count(nome) AS total_de_funcionarios
 FROM funcionarios
-GROUP BY departamento HAVING total_de_funcionarios > 5;
+GROUP BY departamento HAVING total_de_funcionarios > 5
+ORDER BY total_de_funcionarios DESC;
 
---exercício 10
+--exercício 10 (consultar o(s) funcionário(s) com o maior salário, utilizando subquery)
 SELECT nome, salario FROM funcionarios
 WHERE salario = (SELECT MAX(salario) FROM funcionarios);
 
---exercício 11
+--exercício 11 (consultar o nome e a data de contratação dos funcionários contratados no ano de 2022)
 SELECT nome, data_contratacao FROM funcionarios
 WHERE data_contratacao LIKE '2022%';
 
---exercício 12
+--exercício 12 (consultar o total de cargos por departamento exibindo apenas os departamentos com mais de 4 cargos e ordenado por cargos em ordem decrescente. Utilizar um "alias" para o total de cargos)
 SELECT departamento, count(cargo) AS total_de_cargos
 FROM funcionarios
-GROUP BY departamento HAVING total_de_cargos > 4
+GROUP BY departamento 
+HAVING total_de_cargos > 4
 ORDER BY total_de_cargos DESC;
 
---exercício 13
+--exercício 13 (consultar os funcionários que foram contratados entre janeiro e junho de 2023, utilizando between, e ordenado por data de contratação)
 SELECT nome, data_contratacao
 FROM funcionarios
 WHERE data_contratacao BETWEEN '2023-01-01' AND '2023-06-30'
 ORDER BY data_contratacao ASC;
 
---exercício 14
+--exercício 14 (consultar o(s) funcionário(s) com data de contratação mais antiga, utilizando subquery)
 SELECT nome, data_contratacao
 FROM funcionarios
 WHERE data_contratacao = (SELECT MIN(data_contratacao) FROM funcionarios);
 
---exercício 15
+--exercício 15 (calcular a média salarial por departamento e exibir os resultados que tenham média maiores ou iguais a 6000. Utilizar um "alias" para a média salarial)
 SELECT departamento, AVG(salario) AS media_salarial
 FROM funcionarios
-GROUP BY departamento HAVING media_salarial > 6000;
+GROUP BY departamento HAVING media_salarial >= 6000;
 
---exercício 16
+--exercício 16 (calcular a diferença salarial entre o funcionário com o maior salário e o funcionário com o menor salário. Utilizar um "alias" para a diferença salarial)
 SELECT MAX(salario) - MIN(salario) AS diferenca_salarial
 FROM funcionarios;
 
