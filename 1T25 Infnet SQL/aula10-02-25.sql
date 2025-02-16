@@ -13,22 +13,32 @@ CREATE TABLE TAluno(
     nome TEXT not null,
     email TEXT unique not null,
     dataNascimento DATE not null --check(dataNascimento <= Date('now'))
+    situacao TEXT DEFAULT 'inicio' 
     );
+
+--criação de um índice para a tabela Aluno
+CREATE INDEX idx_aluno_cpf ON TAluno(cpf); --foi criado por ser unique
+CREATE INDEX idx_aluno_email ON TAluno(email); --foi criado por ser unique
+CREATE INDEX idx_aluno_nome ON TAluno(nome); --foi criado por ser utilizado na cláusula where
     
 CREATE TABLE TCurso(
     id INTEGER primary key autoincrement,
     nome TEXT unique not null,
     cargaHoraria INTEGER not null check(cargaHoraria > 0),
-    valor REAL not null check(valor >= 0)
+    valor REAL DEFAULT 0 CHECK(valor >= 0) -- se o valor do curso não for preenchido, o valor será zero
     );
+
+--criação de um índice para a tabela Curso
+CREATE INDEX idx_curso_nome ON TCurso(nome); --foi criado por ser unique
     
 CREATE TABLE TMatricula(
     id INTEGER primary key autoincrement,
     idAluno INTEGER,
     idCurso INTEGER,
     dataMatricula TEXT,
-    foreign key (idAluno) references TALUNO(id)
-    foreign key (idCurso) references TCurso);
+    foreign key (idAluno) references TAluno(id),
+    foreign key (idCurso) references TCurso(id)
+    );
     
 INSERT into TAluno (cpf, nome, email, dataNascimento)
 VALUES('123.456.789-00', 'João Silva', 'joao.silva@exemplo.com', '1990-01-01');
